@@ -28,6 +28,8 @@
 
 DNOK (Definitely-Not-A-Keylogger) is a basic program that can capture and email events and screenshots done on the infected host.
 
+<img width="100%" src=".images/process_running_example.png"></img>
+
 <!-- GETTING STARTED -->
 ## Getting Started
 
@@ -63,6 +65,11 @@ source venv/bin/activate
 #### Install the requirements
 ```bash
 pip install -r requirements.txt
+```
+
+#### Create Executable
+```bash
+pyinstaller --onefile --icon=icon.jpg --name DefinitelyNotAKeylogger main.py
 ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
