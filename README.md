@@ -26,7 +26,7 @@
   </ol>
 </details>
 
-DNOK (Definitely-Not-A-Keylogger) is a basic program that can capture and email events and screenshots done on the infected host.
+DNOK (Definitely-Not-A-Keylogger) is a basic program that can capture key-press events and screenshots from an infected host. Results are encrypted and can be emailed to infectee.
 
 <img width="100%" src=".images/process_running_example.png"></img>
 
